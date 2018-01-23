@@ -28,7 +28,7 @@ Is MSBuild version 4.0?
 		(msbuild /nologo /version) | out-file "TestDrive:\msbuildversion.txt"
 		$version = get-content "TestDrive:\msbuildversion.txt"
 		
-		$version.StartsWith("4.0") | should be $true
+		$version.StartsWith("4.") | should be $true
 	}
 	It @"
 Is Doxygen available?
