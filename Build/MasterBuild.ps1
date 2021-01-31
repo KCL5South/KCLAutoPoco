@@ -40,12 +40,12 @@ Task Full -Depends	Release, `
 #	Run Pester Tests
 #-------------------------------
 Task Task_RunPesterTests {
-	Invoke-Pester -outputXML (Join-Path $env:TMP testOutput.xml)
-	$testResults = [xml](get-content (Join-Path $env:TMP testOutput.xml))
+	Invoke-Pester -Output Detailed -CI
+	$testResults = [xml](get-content testResults.xml)
 	
-	if(Test-Path (Join-Path $env:TMP testOutput.xml))
+	if(Test-Path testResults.xml)
 	{
-		Remove-Item (Join-Path $env:TMP testOutput.xml)
+		Remove-Item testResults.xml
 	}
 	
 	if(@($testResults | select-xml "//*/test-suite[descendant::failure]").Length -gt 0)
@@ -85,12 +85,12 @@ Task Task-UpdateAssemblyInfo {
 #-------------------------------
 Task Debug_Build {
 	Exec {
-		msbuild ..\AutoPoco.sln /P:Configuration=DEBUG /P:VisualStudioVersion=10.0
+		msbuild ..\AutoPoco.sln /P:Configuration=DEBUG /P:VisualStudioVersion=12.0
 	}
 }
 Task Release_Build {
 	Exec {
-		msbuild ..\AutoPoco.sln /P:Configuration=RELEASE /P:VisualStudioVersion=10.0
+		msbuild ..\AutoPoco.sln /P:Configuration=RELEASE /P:VisualStudioVersion=12.0
 	}
 }
 

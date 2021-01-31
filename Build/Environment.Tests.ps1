@@ -1,12 +1,12 @@
 Describe -Tag "Environment" "Making sure the environment is ready to run the build scripts" {
 	It @"
-Is Powershell Version 3.0?
-	This project requires Powershell 3.0.
+Is Powershell Version at least 3.0?
+	This project requires Powershell 3.0 or higher.
 	
 	You can download the installer here: 
 	(http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 "@	{
-		$PSVersionTable["PSVersion"].Major | should be 3
+		$PSVersionTable["PSVersion"].Major | Should -BeGreaterOrEqual 3
 	}
 	It @"
 Is MSBuild available?
@@ -18,7 +18,7 @@ Is MSBuild available?
 "@	{
 		@($env:Path.Split(";") | where {
 			Test-Path (Join-Path $_ "MSBuild.Exe")
-		}).Length -gt 0 | should be $true
+		}).Length -gt 0 | Should -Be $true
 	}
 	It @"
 Is MSBuild version 4.0?
@@ -28,7 +28,7 @@ Is MSBuild version 4.0?
 		(msbuild /nologo /version) | out-file "TestDrive:\msbuildversion.txt"
 		$version = get-content "TestDrive:\msbuildversion.txt"
 		
-		$version.StartsWith("4.") | should be $true
+		$version.StartsWith("4.") | Should -Be $true
 	}
 	It @"
 Is Doxygen available?
@@ -40,7 +40,7 @@ Is Doxygen available?
 "@	{
 		@($env:Path.Split(";") | where {
 			Test-Path (Join-Path $_ "doxygen.exe")
-		}).Length -gt 0 | should be $true
+		}).Length -gt 0 | Should -Be $true
 	}
 	It @"
 Is nuget available?
@@ -52,6 +52,6 @@ Is nuget available?
 "@	{
 		@($env:Path.Split(";") | where {
 			Test-Path (Join-Path $_ "nuget.exe")
-		}).Length -gt 0 | should be $true
+		}).Length -gt 0 | Should -Be $true
 	}
 }
